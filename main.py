@@ -1,4 +1,4 @@
-def some_magic():
+def run_all():
     import basicCV as a
     for i in dir(a):
         item = getattr(a,i)
@@ -6,4 +6,4 @@ def some_magic():
             item()
 
 if __name__ == '__main__':
-    some_magic()
+    run_all()
