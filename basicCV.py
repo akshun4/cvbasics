@@ -5,7 +5,6 @@ from matplotlib import pyplot as plt
 img1=cv2.imread("image1.jpg",1)				#image1 read in color
 img0=cv2.imread("image1.jpg",0)				#image1 read in grayscale
 img11 = cv2.imread('openCVLogo.png')
-cap = cv2.VideoCapture('COSTA.mp4')
 
 def a1grey():
 	gray=cv2.cvtColor(img1,cv2.COLOR_BGR2GRAY)
@@ -177,59 +176,33 @@ def t5text():
 	cv2.waitKey(0)
 	cv2.destroyAllWindows()
 
-def playgray():
-	while(cap.isOpened()):# isOpened() is used to check whether the cap is initialized or not
-	    # Step 4:- Returning the frame by frame
-	    ret, frame = cap.read()
-	    # Step 5:- Performing the operations on each frame. Here we are converting each frame into grayscale.
-	    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-	    # Step 6: Displaying the output to the user.
-	    cv2.imshow('frame',gray)
-	    #Step 7:- Waiting for the user response .
-	    if cv2.waitKey(1) & 0xFF == ord('q'): # Check whether key 'q' is pressed or not
-	        break
-	# Step 8 :- Releasing the Cap object
-	cap.release()
-	#Step 9 :- Destroying all the windows
-	cv2.destroyAllWindows()
 
-def playfast():
+def vid1play():
+	cap = cv2.VideoCapture(0)
+	fourcc = cv2.VideoWriter_fourcc(*'XVID') #The fourcc is used to mention the video codec for encoding the video
+	#The VideoWriter() accepts four parameters.These are as follows:
+	    # 1) The output file name along with the format in which you want to save the file
+	    # 2) The video codec or fourcc.
+	    # 3) Frames per second which is used to mention how fast or slow your video should play along with the frame size that is the size of the window
+	    # 4) isColor flag. If it is True, encoder expect color frame, otherwise it works with grayscale frame.
+	out = cv2.VideoWriter('webcam.avi', fourcc, 20.0, (int(cap.get(3)), int(cap.get(4))), isColor=True)
 	while(cap.isOpened()):
-	    ret, frame=cap.read()
-	    #Display the video frames to the User
-	    cv2.imshow('frame',frame)
-	    if cv2.waitKey(1) & 0xFF==ord('a'):
-	        break
-	#Release allthe frames
+		# Capture frame-by-frame
+		ret, frame = cap.read()
+		if ret==True:
+				out.write(frame)
+				cv2.imshow('frame',frame)
+				if cv2.waitKey(1) & 0xFF == ord('q'):
+					break
+		else:
+			break
+
+	# When everything done, release the capture
 	cap.release()
-	#Destroy all the Windows
+	# Destroy all the previously created window objects.
 	cv2.destroyAllWindows()
 
-def playnormal():
-	while(cap.isOpened()):
-	    ret, frame=cap.read()
-	    #Display the video frames to the User
-	    cv2.imshow('frame',frame)
-	    if cv2.waitKey(25) & 0xFF==ord('a'):
-	        break
-	#Release allthe frames
-	cap.release()
-	#Destroy all the Windows
-	cv2.destroyAllWindows()
-
-def playslow():
-	while(cap.isOpened()):
-	    ret, frame=cap.read()
-	    #Display the video frames to the User
-	    cv2.imshow('frame',frame)
-	    if cv2.waitKey(2000) & 0xFF==ord('a'):
-	        break
-	#Release allthe frames
-	cap.release()
-	#Destroy all the Windows
-	cv2.destroyAllWindows()
-
-def vdiffFormat():
+def vid2diffFormat():
 	cap=cv2.VideoCapture("webcam.avi")# COSTA.mp4 is the filename of the video along with the format name
 	fourcc = cv2.VideoWriter_fourcc(*'XVID') # For fourcc visit fourcc.org
 
@@ -254,3 +227,4 @@ def vdiffFormat():
 	cap.release()
 	out.release()
 	cv2.destroyAllWindows()
+
